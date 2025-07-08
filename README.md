@@ -1,98 +1,151 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+🧪 Projeto de Treinamento: Testes Automatizados com Jest e NestJS
+📋 Descrição
+Este projeto foi desenvolvido como um ambiente de treinamento para praticar Test-Driven Development (TDD) utilizando Jest e NestJS. O foco principal é o aprendizado de testes automatizados através da implementação de um serviço de validação de cartões de crédito Visa.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+🎯 Objetivos de Aprendizado
+✅ Praticar TDD (Test-Driven Development)
+✅ Dominar testes unitários com Jest
+✅ Implementar testes de integração com NestJS Testing
+✅ Validar regras de negócio através de testes
+✅ Trabalhar com mocks e assertions
+✅ Estruturar testes de forma organizada e legível
+🏗️ Estrutura do Projeto
+src/
+├── app.controller.ts          # Controller principal
+├── app.service.ts             # Service principal  
+├── app.module.ts              # Módulo principal
+├── main.ts                    # Ponto de entrada
+└── services/
+    └── visaCreditCard.service.ts  # Serviço de validação Visa
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+test/
+├── app.e2e-spec.ts           # Testes end-to-end
+└── visaCreditCard.service.spec.ts  # Testes unitários do serviço Visa
 
-## Description
+Copy
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Apply
 
-## Project setup
+🧪 Casos de Teste Implementados
+VisaCreditCardService
+O serviço de validação de cartões Visa implementa as seguintes validações:
 
-```bash
-$ npm install
-```
+✅ Cenários de Sucesso
+Validação CVV correto: Deve aceitar CVV com exatamente 3 dígitos
+Número Visa válido: Deve aceitar números que começam com 4
+❌ Cenários de Erro
+Número não-Visa: Deve rejeitar cartões que não começam com 4
+CVV inválido: Deve rejeitar CVV com menos ou mais de 3 dígitos
+describe('VisaCreditCardService', () => {
+  // ✅ Teste de sucesso
+  it('should validate CVV correct for Visa', () => {
+    expect(service.processCard('4111111111111111', '123')).toBe(true);
+  });
 
-## Compile and run the project
+  // ❌ Teste de erro - Cartão não-Visa
+  it('should throw error when card number is not Visa', () => {
+    expect(() => service.processCard('5111111111111111', '123'))
+      .toThrow('Number card invalid for VISA');
+  });
 
-```bash
-# development
-$ npm run start
+  // ❌ Teste de erro - CVV inválido
+  it('should throw error when CVV is invalid', () => {
+    expect(() => service.processCard('4111111111111111', '12'))
+      .toThrow('CVV invalid for VISA. Must be 3 digits');
+  });
+});
 
-# watch mode
-$ npm run start:dev
+Copy
 
-# production mode
-$ npm run start:prod
-```
+Apply
 
-## Run tests
+🛠️ Tecnologias Utilizadas
+NestJS - Framework Node.js para aplicações server-side
+Jest - Framework de testes JavaScript
+TypeScript - Linguagem de programação
+Supertest - Biblioteca para testes HTTP
+🚀 Como Executar
+Instalação
+npm install
 
-```bash
-# unit tests
-$ npm run test
+Copy
 
-# e2e tests
-$ npm run test:e2e
+Execute
 
-# test coverage
-$ npm run test:cov
-```
+Executar Testes
+# Testes unitários
+npm run test
 
-## Deployment
+# Testes em modo watch
+npm run test:watch
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+# Testes com coverage
+npm run test:cov
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+# Testes end-to-end
+npm run test:e2e
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+Copy
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Execute
 
-## Resources
+Executar Aplicação
+# Modo desenvolvimento
+npm run start:dev
 
-Check out a few resources that may come in handy when working with NestJS:
+# Modo produção
+npm run start:prod
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Copy
 
-## Support
+Execute
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+📚 Conceitos Praticados
+1. Test-Driven Development (TDD)
+Escrever testes antes da implementação
+Ciclo Red-Green-Refactor
+Validação de requisitos através de testes
+2. Testes Unitários
+Isolamento de componentes
+Mocking de dependências
+Assertions e expectativas
+3. Testes de Integração
+Testes end-to-end com Supertest
+Validação de fluxos completos
+Testes de API REST
+4. Boas Práticas
+Organização de testes com describe e it
+Setup e teardown com beforeEach
+Nomenclatura descritiva de testes
+Cobertura de cenários positivos e negativos
+🎓 Lições Aprendidas
+✅ Sucessos
+Implementação de validações robustas
+Estruturação clara de testes
+Uso adequado de exceptions do NestJS
+🔧 Melhorias Identificadas
+Implementar mais cenários de teste
+Adicionar validações de formato de cartão
+Expandir para outros tipos de cartão (Mastercard, American Express)
+Implementar testes de performance
+🔄 Próximos Passos
+Expandir Validações
 
-## Stay in touch
+Algoritmo de Luhn para validação de cartão
+Validação de data de expiração
+Suporte a múltiplas bandeiras
+Melhorar Testes
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Adicionar testes parametrizados
+Implementar factory de dados de teste
+Adicionar testes de carga
+Integração
 
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+API REST para validação
+Documentação com Swagger
+Middleware de validação
+📖 Recursos de Estudo
+NestJS Testing Documentation
+Jest Documentation
+TDD Best Practices
+Objetivo Alcançado: Este projeto serviu como uma excelente base para praticar testes automatizados, proporcionando experiência hands-on com TDD, Jest e NestJS Testing utilities. 🎯✨
